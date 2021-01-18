@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const usuarioSchema = new Schema({
+export const usuarioSchema = new Schema({
+    id:String,
     nombre: String,
     nick:String,
     email: String,
     contrasenya:String
 });
 
-const User = mongoose.model('Usuario', usuarioSchema);
+export const User = mongoose.model('Usuario', usuarioSchema);
 
