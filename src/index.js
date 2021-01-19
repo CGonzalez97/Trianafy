@@ -14,3 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 morganBody(app);
 
+app.listen(process.env.PORT, () =>
+  console.log(
+    `¡Aplicación de ejemplo escuchando en el puerto ${process.env.PORT}!`
+  )
+);
