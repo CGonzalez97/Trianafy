@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Schema } from mongoose;
+import { Schema } from 'mongoose';
 import {cancionSchema} from './cancion';
 
 const ListaReproduccion = new Schema({

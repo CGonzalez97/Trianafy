@@ -2,15 +2,28 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/lists', /* método controlador */);
-router.post('/lists', /* método controlador */);
-router.get('/lists/{id}', /* método controlador */);
-router.put('/lists/{id}', /* método controlador */);
-router.delete('/lists/{id}', /* método controlador */);
+/*
+router.get('/lists', );
+router.post('/lists', );
+router.get('/lists/{id}', );
+router.put('/lists/{id}', );
+router.delete('/lists/{id}', );
 
-router.get('/lists/{idL}/songs', /* método controlador */);
-router.post('/lists/{idL}/songs/{idS}', /* método controlador */);
-router.get('/lists/{idL}/songs/{idS}', /* método controlador */);
-router.delete('/lists/{idL}/songs/{idS}', /* método controlador */);
+router.get('/lists/{idL}/songs', );
+router.post('/lists/{idL}/songs/{idS}', );
+router.get('/lists/{idL}/songs/{idS}', );
+router.delete('/lists/{idL}/songs/{idS}', );
+*/
+
+router.get('/', );
+router.post('/', );
+router.get('/{id}', );
+router.put('/{id}', );
+router.delete('/{id}', );
+
+router.get('/{idL}/songs', );
+router.post('/{idL}/songs/{idS}', );
+router.get('/{idL}/songs/{idS}', );
+router.delete('/{idL}/songs/{idS}', );
 
 export default router;
