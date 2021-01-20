@@ -26,5 +26,42 @@ export const CancionRepo = {
     async findAll() {
         const result =  await Cancion.find({}).exec();
         return result;
+    },
+
+    async findById(id) {
+        // const posicion = indexOfPorId(id);
+        // return posicion == -1 ? undefined : users[posicion];
+        const result = await Cancion.findById(id).exec();
+        return result != null ? result : undefined;
+    },
+
+    async updateById(id, cancionMod) {
+
+        // const posicionEncontrado = indexOfPorId(id)
+        // if (posicionEncontrado != -1) {
+        //    users[posicionEncontrado].username = modifiedUser.username;
+        // }
+        // return posicionEncontrado != -1 ? users[posicionEncontrado] : undefined;
+        const cancionSaved = await User.findById(id);
+
+        if (userSaved != null) {
+            return await Object.assign(cancionSaved, cancionMod).save();
+        } else
+            return undefined;
+
+
+    },
+
+    update(cancionMod) {
+        return this.updateById(cancionMod.id, cancionMod);
+    },
+
+    async delete(id) {
+        // const posicionEncontrado = indexOfPorId(id);
+        // if (posicionEncontrado != -1)
+        //     users.splice(posicionEncontrado, 1);
+        await Cancion.findByIdAndRemove(id).exec();
     }
+
+
 }
