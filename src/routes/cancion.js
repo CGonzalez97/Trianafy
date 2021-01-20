@@ -12,10 +12,10 @@ router.delete('/songs/{id}', );
 */
 
 router.get('/', CancionController.getCanciones);
-router.post('/', );
-router.get('/{id}', );
-router.put('/{id}', );
-router.delete('/{id}', );
+router.post('/', CancionController.crearCancion);
+router.get('/{id}',CancionController.getCancion );
+router.put('/{id}', CancionController.modCancion);
+router.delete('/{id}', CancionController.deleteCancion);
 
 
 export default router;
