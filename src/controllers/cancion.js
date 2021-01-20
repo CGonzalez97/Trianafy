@@ -49,7 +49,7 @@ export const CancionController ={
     },
 
     deleteCancion: async (req,res)=>{
-        await CancionRepo.deleteCancion(req.params.id);
+        await CancionRepo.delete(req.params.id);
     }
 
     

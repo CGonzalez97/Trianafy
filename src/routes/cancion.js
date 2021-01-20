@@ -3,19 +3,12 @@ import {CancionController} from '../controllers/cancion';
 
 const router = Router();
 
-/*
-router.get('/songs', CancionController.getCanciones());
-router.post('/songs', );
-router.get('/songs/{id}', );
-router.put('/songs/{id}', );
-router.delete('/songs/{id}', );
-*/
 
 router.get('/', CancionController.getCanciones);
 router.post('/', CancionController.crearCancion);
-router.get('/{id}',CancionController.getCancion );
-router.put('/{id}', CancionController.modCancion);
-router.delete('/{id}', CancionController.deleteCancion);
+router.get('/:id',CancionController.getCancion );
+router.put('/:id', CancionController.modCancion);
+router.delete('/:id', CancionController.deleteCancion);
 
 
 export default router;
