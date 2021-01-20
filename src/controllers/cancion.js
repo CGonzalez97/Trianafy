@@ -50,6 +50,7 @@ export const CancionController ={
 
     deleteCancion: async (req,res)=>{
         await CancionRepo.delete(req.params.id);
+        res.sendStatus(200);
     }
 
     

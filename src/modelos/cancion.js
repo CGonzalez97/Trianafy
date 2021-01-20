@@ -42,9 +42,9 @@ export const CancionRepo = {
         //    users[posicionEncontrado].username = modifiedUser.username;
         // }
         // return posicionEncontrado != -1 ? users[posicionEncontrado] : undefined;
-        const cancionSaved = await User.findById(id);
+        const cancionSaved = await Cancion.findById(id);
 
-        if (userSaved != null) {
+        if (cancionSaved != null) {
             return await Object.assign(cancionSaved, cancionMod).save();
         } else
             return undefined;
