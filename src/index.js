@@ -19,7 +19,7 @@ app.use('/songs',routes.cancion);
 app.use('/lists',routes.listaReproduccion);
 //app.use('/auth',routes.cancion);
 
-mongoose.set('useFindAndModify', false);
+mongoose.set('useFindAndModify', false);// Para un problema de una deprecacion relacionada con update y delete de mongoose
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true }, err => {
   
   if (err) {

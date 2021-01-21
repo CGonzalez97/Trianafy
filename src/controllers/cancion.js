@@ -4,11 +4,6 @@ import {Cancion,CancionRepo} from '../modelos/cancion';
 export const CancionController ={
 
     getCanciones: async (req,res) =>{
-        /*let cancionPrueba = new Cancion({title: 'Cancion1',
-            artist: 'CarlitosBrown',
-            album: 'API, calvicie y demás',
-            year: new  Date()});
-        await CancionRepo.save(cancionPrueba);*/
         let listaCanciones = await CancionRepo.findAll();
         if(listaCanciones != undefined || listaCanciones != null || listaCanciones.lenght <= 0){
             res.json(listaCanciones);//.sendStatus(200);
@@ -38,9 +33,10 @@ export const CancionController ={
     modCancion: async(req, res)=>{
         let cancionMod = await CancionRepo.updateById(req.params.id,{
             title: req.body.title, 
-            artist: req.params.artist, 
-            album: req.params.album,
-            year: req.params.year});
+            artist: req.body.artist, 
+            album: req.body.album,
+            year: req.body.year
+        });
         if(cancionMod =! undefined){
             res.status(200).json(cancionMod);
         }else{
@@ -51,7 +47,5 @@ export const CancionController ={
     deleteCancion: async (req,res)=>{
         await CancionRepo.delete(req.params.id);
         res.sendStatus(200);
-    }
-
-    
+    }  
 };
