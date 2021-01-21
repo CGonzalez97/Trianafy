@@ -33,9 +33,10 @@ export const CancionController ={
     modCancion: async(req, res)=>{
         let cancionMod = await CancionRepo.updateById(req.params.id,{
             title: req.body.title, 
-            artist: req.params.artist, 
-            album: req.params.album,
-            year: req.params.year});
+            artist: req.body.artist, 
+            album: req.body.album,
+            year: req.body.year
+        });
         if(cancionMod =! undefined){
             res.status(200).json(cancionMod);
         }else{

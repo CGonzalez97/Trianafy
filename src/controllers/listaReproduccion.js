@@ -34,9 +34,9 @@ export const ListaController ={
     modLista: async(req, res)=>{
         let listaMod = await ListaRepo.updateById(req.params.id,{
             name: req.body.name, 
-            description: req.params.description, 
-            user_id: req.params.user_id/*,
-            year: req.params.year*/});
+            description: req.body.description, 
+            user_id: req.body.user_id
+        });
         if(listaMod =! undefined){
             res.status(200).json(listaMod);
         }else{
