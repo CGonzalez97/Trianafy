@@ -6,7 +6,7 @@ export const listaSchema = new Schema({
     name:String,
     description: String,
     user_id: String,
-    canciones: String//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
+    canciones: []//[{idC : String}]//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
 });
 
 export const Lista = mongoose.model('Lista', listaSchema);

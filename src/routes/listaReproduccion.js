@@ -10,9 +10,9 @@ router.get('/:id', ListaController.getLista);
 router.put('/:id', ListaController.modLista);
 router.delete('/:id', ListaController.deleteLista);
 
-router.get('/{idL}/songs', );
-router.post('/{idL}/songs/{idS}', );
-router.get('/{idL}/songs/{idS}', );
-router.delete('/{idL}/songs/{idS}', );
+router.get('/:id/songs', ListaController.getCanciones);
+router.post('/:id/songs/:idC', ListaController.addCancion);
+router.get('/:id/songs/:idC', ListaController.getCancion);
+router.delete('/:id/songs/:idC', ListaController.deleteCancion);
 
 export default router;

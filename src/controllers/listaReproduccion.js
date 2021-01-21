@@ -1,5 +1,7 @@
 import { json } from 'body-parser';
 import {Lista,ListaRepo} from '../modelos/listaReproduccion';
+import {Cancion,CancionRepo} from '../modelos/cancion';
+
 
 export const ListaController ={
 
@@ -16,7 +18,8 @@ export const ListaController ={
         let listaPrueba = new Lista({
             name: req.body.name,
             description: req.body.description,
-            user_id: req.body.user_id
+            user_id: req.body.user_id,
+            canciones: [String]
         });
         await ListaRepo.save(listaPrueba);
         res.status(201).json(listaPrueba);
@@ -47,5 +50,64 @@ export const ListaController ={
     deleteLista: async (req,res)=>{
         await ListaRepo.delete(req.params.id);
         res.sendStatus(200);
-    }  
+    } ,
+    
+    getCanciones: async (req,res)=>{
+        let listaCanciones = [];
+        let listaRepro = await ListaRepo.findById(req.params.id);
+        if(listaRepro != undefined){
+            if(listaRepro.canciones != undefined){
+                for(let i of listaRepro.canciones){
+                    listaCanciones.push(i);
+                }
+            }
+            
+        }
+        res.json(listaCanciones);        
+    },
+
+    addCancion: async (req,res)=>{
+        let cancion = await CancionRepo.findById(req.params.idC);
+        let lista = await ListaRepo.findById(req.params.id);
+        if(cancion != undefined && cancion != null && lista != undefined && lista != null){
+            lista.canciones.push(cancion.id);
+            lista.save();
+            res.json(cancion);
+        }else{
+            res.sendStatus(404);
+        }        
+    },
+
+    getCancion: async(req,res)=>{
+        let cancion;
+        let lista = await ListaRepo.findById(req.params.id);
+        console.log('-----------------------------------');
+        console.log(typeof lista);
+        console.log('-----------------------------------');
+        for(let i of lista.canciones){
+            if(i == req.params.idC){
+                cancion = await CancionRepo.findById(i);
+            }
+        }
+        if(cancion == undefined || cancion == null){
+            res.sendStatus(404);
+        }else{
+            res.json(cancion);
+        }
+    },
+
+    deleteCancion: async (req,res)=>{
+        let lista = await ListaRepo.findById(req.params.id);
+        let index = lista.canciones.indexOf(req.params.idC);
+        if(index == -1){
+            res.sendStatus(404);
+        }else{
+            lista.canciones.splice(index,1);
+            ListaRepo.updateById(req.params.id, lista);
+            //Lista.updateOne({_id: req.params.id},{$pull:{canciones:{id: req.params.idC}}});
+            res.sendStatus(204);
+        }
+        
+        
+    }
 };
