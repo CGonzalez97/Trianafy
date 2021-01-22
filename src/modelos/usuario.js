@@ -11,3 +11,7 @@ export const usuarioSchema = new Schema({
 
 export const User = mongoose.model('Usuario', usuarioSchema);
 
+const UserRepository = {
+    //Metodos crud, y los findAll, findById y findByUsername
+}
+
