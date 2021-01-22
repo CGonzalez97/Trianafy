@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { ListaController} from '../controllers/listaReproduccion';
-import { Router } from 'express';
 import {param,body} from 'express-validator';
-import {validar} from '../middlewars/validacion';
+import {validar} from '../middlewares/validacion';
 
 const router = Router();
 
