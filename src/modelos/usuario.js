@@ -11,7 +11,7 @@ export const usuarioSchema = new Schema({
 
 export const User = mongoose.model('Usuario', usuarioSchema);
 
-const UserRepository = {
+export const UserRepository = {
     //Metodos crud, y los findAll, findById y findByUsername
     async save(usuario) {
         let usuarioGuardar = new User({nombre: usuario.nombre,
@@ -27,7 +27,7 @@ const UserRepository = {
         return result;
     },
 
-    async usernameExist(emailB){
+    async emailExist(emailB){
         return await User.find({email:emailB}).exec().lenght() > 0 ? true : false ;
     },
 
@@ -67,6 +67,16 @@ const UserRepository = {
         // if (posicionEncontrado != -1)
         //     users.splice(posicionEncontrado, 1);
         await User.findByIdAndRemove(id).exec();
+    },
+
+    toDto(usuario){
+        return {
+            id: usuario.id,
+            nombre: usuario.nombre, 
+            nick: usuario.nick,
+            email: usuario.email
+        }
     }
 }
+
 
