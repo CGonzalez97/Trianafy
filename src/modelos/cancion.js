@@ -6,7 +6,7 @@ export const cancionSchema = new Schema({
     title: String,
     artist: String,
     album: String,
-    year: Date
+    year: Number
 });
 
 export const Cancion = mongoose.model('Cancion', cancionSchema);
