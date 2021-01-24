@@ -18,8 +18,8 @@ router.post('/register', [
     body('email')
         .isEmail()
         .withMessage('El campo email debe ser un email válido')
-        .custom(email => {
-            if(UserRepository.emailExist(email)) {
+        .custom(async (email) => {//Aqui se ha anyadido async/await
+            if(await UserRepository.emailExist(email)) {
                 throw new Error('El email ya está registrado. Proporcione un valor diferente');
             } else {  
                 return true;
@@ -33,3 +33,5 @@ router.post('/register', [
 router.post('/login',
     password(),
     AuthController.login);
+
+export default router;

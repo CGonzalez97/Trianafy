@@ -27,8 +27,13 @@ export const UserRepository = {
         return result;
     },
 
+    /*async emailExist(emailB){
+        console.log('Cantidad de resultados encontrados: ----->   '+await User.find({email:emailB}).countDocuments().exec());
+        await User.find({email:emailB}).countDocuments().exec() > 0 ? console.log('true') : console.log('false');
+        return await User.find({email:emailB}).countDocuments().exec() > 0 ? true : false ;
+    },*/
     async emailExist(emailB){
-        return await User.find({email:emailB}).exec().lenght() > 0 ? true : false ;
+       return await User.countDocuments({ email: emailB }).exec() > 0;
     },
 
     async findById(id) {
