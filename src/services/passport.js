@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
-import {User, UserRepository} from '../models/usuario';
+import {User, UserRepository} from '../modelos/usuario';
 import { JwtService } from '../services/jwt';
 
 passport.use(new LocalStrategy({
@@ -55,5 +55,16 @@ export const password = () => (req, res, next) =>
             next()
         })
     })(req, res, next);
+
+export const token = () => (req, res, next) =>
+    passport.authenticate('token', { session: false }, (err, user, info) => {
+    if (err ||  !user) {
+        return res.status(401).end()
+    }
+    req.logIn(user, { session: false }, (err) => {
+        if (err) return res.status(401).end()
+        next()
+    })
+})(req, res, next);
 
 export default passport;

@@ -26,11 +26,10 @@ router.post('/register', [
             }
         }),
     body('id').not().exists().withMessage('No es necesario que proporcione un ID; este se asignará automáticamente')
-],
-validar, 
-AuthController.register);
+    ],
+    validar, 
+    AuthController.register);
 
 router.post('/login',
     password(),
-    AuthController.login
-    );
+    AuthController.login);
