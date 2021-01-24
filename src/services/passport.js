@@ -10,14 +10,15 @@ passport.use(new LocalStrategy({
     usernameField: "email",
     passwordField: "password",
     session: false
-},(email, password, done)=> {
-    const user = UserRepository.findByEmail(email);
+},async (email, password, done)=> {
+    const user = await UserRepository.findByEmail(email);//Devuelve un array de un único elemente, para acceder a la password -> user[0]['password']
+    console.log('contraseña:---->'+user[0]['password']);
     if (user == undefined)
         return done(null, false); // El usuario no existe
-    else if (!bcrypt.compareSync(password, user.password))
+    else if (!bcrypt.compareSync(password, user[0]['password']))
         return done(null, false); // No coincide la contraseña
     else
-        return done(null, UserRepository.toDto(user));
+        return done(null, UserRepository.toDto(user[0]));
 }));
 
 
@@ -51,6 +52,7 @@ export const password = () => (req, res, next) =>
             return res.status(401).end()
         
         req.logIn(user, { session: false }, (err) => {
+            console.log('Entra en req.logIn.');
             if (err) return res.status(401).end()
             next()
         })
