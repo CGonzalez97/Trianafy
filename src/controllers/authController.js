@@ -1,6 +1,9 @@
 import {User,UserRepository} from '../modelos/usuario';
+import {ListaRepo} from '../modelos/listaReproduccion';
 import bcrypt from 'bcryptjs';
 import { JwtService } from '../services/jwt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const AuthController = {
 
@@ -28,6 +31,58 @@ export const AuthController = {
         res.status(201).json({
             user: req.user,
             token: token
+        });
+    },
+
+    me : async (req,res, next)=>{
+        let userId;
+        //let usuarioLogeado;
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization.split(' ')[1];
+            let decoded;
+            try {
+                decoded = JwtService.verify(authorization, secret.secretToken);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            userId = decoded.id;
+            // Fetch the user by id 
+            //usuarioLogeado = await findById.findById(userId);
+        }
+        let lista = ListaRepo.findById(req.params.id);
+        if(lista.user_id == userId){
+            //return true;
+            next();
+        }else{
+            return res.status(401).send('unauthorized');
+        }
+        //return usuarioLogeado;
+    },
+
+    misDatos: async(req,res,next)=>{
+        let userId;
+        let usuarioLogeado;
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization.split(' ')[1];
+            console.log(authorization);
+            let decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+                console.log(decoded);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            userId = decoded.sub;
+            // Fetch the user by id 
+            console.log(userId);
+            usuarioLogeado = await UserRepository.findById(userId);
+            console.log(typeof usuarioLogeado);
+        }
+        res.json({
+            id: usuarioLogeado.id,
+            nombre: usuarioLogeado.nombre,
+            nick: usuarioLogeado.nick,
+            email: usuarioLogeado.email
         });
     }
 }
