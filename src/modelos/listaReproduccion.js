@@ -49,9 +49,6 @@ export const ListaRepo = {
         const result = await Lista.find({user_id:userId}).exec();
         return result != null ? result : undefined;
     },
-    /*async findOneWithUserId(userId, id){
-        const result = await Lista.find({user_id:userId}).exec();
-    },*/
 
     async updateById(id, listaMod) {
 

@@ -24,12 +24,14 @@ router.post('/',
 
 router.get('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getLista);
 
 router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
     body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
@@ -38,18 +40,21 @@ router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthControl
 
 router.delete('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.deleteLista);
 
 router.get('/:id/songs',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getCanciones);
 
 router.post('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
@@ -57,6 +62,7 @@ router.post('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de
 
 router.get('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
@@ -64,6 +70,7 @@ router.get('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de 
 
 router.delete('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
