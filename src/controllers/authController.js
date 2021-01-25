@@ -34,14 +34,14 @@ export const AuthController = {
         });
     },
 
-    me : async (req,res, next)=>{
+    esPropietario : async (req,res, next)=>{
         let userId;
         //let usuarioLogeado;
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization.split(' ')[1];
             let decoded;
             try {
-                decoded = JwtService.verify(authorization, secret.secretToken);
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
             } catch (e) {
                 return res.status(401).send('unauthorized');
             }
@@ -72,7 +72,7 @@ export const AuthController = {
             } catch (e) {
                 return res.status(401).send('unauthorized');
             }
-            userId = decoded.sub;
+            userId = decoded.sub;//600e9d768c566e08911b26d8
             // Fetch the user by id 
             console.log(userId);
             usuarioLogeado = await UserRepository.findById(userId);

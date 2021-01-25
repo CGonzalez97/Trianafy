@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { ListaController} from '../controllers/listaReproduccion';
+import {AuthController} from '../controllers/authController';
 import {param,body} from 'express-validator';
 import {validar} from '../middlewares/validacion';
 import {token} from '../services/passport';
