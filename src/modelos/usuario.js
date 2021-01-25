@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 export const usuarioSchema = new Schema({
-    id:String,
     nombre: String,
     nick:String,
     email: String,
@@ -19,7 +18,8 @@ export const UserRepository = {
         email: usuario.email,
         password: usuario.password});
         const result =  await usuarioGuardar.save();
-        return result;
+        //console.log(result);
+        return result; 
     },
 
     async findAll() {
