@@ -1,9 +1,9 @@
-import usuario from './usuario';
+import auth from './auth';
 import cancion from './cancion';
 import listaReproduccion from './listaReproduccion';
 
 export default{
-    usuario,
+    auth,
     cancion,
     listaReproduccion
 }
