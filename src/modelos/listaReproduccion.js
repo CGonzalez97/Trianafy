@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { Schema } from 'mongoose';
 import {cancionSchema} from './cancion';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const listaSchema = new Schema({
     name:String,
@@ -34,6 +36,22 @@ export const ListaRepo = {
         const result = await Lista.findById(id).exec();
         return result != null ? result : undefined;
     },
+    
+    async findManyWithUserId(tokenCompleto){
+        var authorization = tokenCompleto.split(' ')[1];
+        let decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            let userId = decoded.sub;
+        const result = await Lista.find({user_id:userId}).exec();
+        return result != null ? result : undefined;
+    },
+    /*async findOneWithUserId(userId, id){
+        const result = await Lista.find({user_id:userId}).exec();
+    },*/
 
     async updateById(id, listaMod) {
 

@@ -4,9 +4,13 @@ import {Cancion,CancionRepo} from '../modelos/cancion';
 
 
 export const ListaController ={
-
+/*
+Este método debería ser para las listas privadas del propio usuario logeado,
+habría que añadir otro método para recibir todas las lista públicas
+*/
+    //Sustituir ListaRepo.findAll() por ListaRepo.findManyWithUserId(req.headers.authorization)
     getListas: async (req,res) =>{
-        let listaListas = await ListaRepo.findAll();
+        let listaListas = await ListaRepo.findManyWithUserId(req.headers.authorization);
         if(listaListas != undefined || listaListas != null || listaListas.lenght <= 0){
             res.json(listaListas);//.sendStatus(200); -> .status(200) -> ¿necesario?
         }else{

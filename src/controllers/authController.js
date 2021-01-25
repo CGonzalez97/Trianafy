@@ -34,6 +34,7 @@ export const AuthController = {
         });
     },
 
+    /*Middleware que se pasa si el user_id de la lista es el mismo que el del token*/
     esPropietario : async (req,res, next)=>{
         let userId;
         //let usuarioLogeado;
@@ -45,7 +46,7 @@ export const AuthController = {
             } catch (e) {
                 return res.status(401).send('unauthorized');
             }
-            userId = decoded.id;
+            userId = decoded.sub;
             // Fetch the user by id 
             //usuarioLogeado = await findById.findById(userId);
         }
