@@ -52,8 +52,8 @@ export const AuthController = {
             //usuarioLogeado = await findById.findById(userId);
         }
         let lista = await ListaRepo.findById(req.params.id);
-        console.log(lista);
-        if(lista[0].user_id == userId){
+        console.log('tipo de lista '+typeof(lista));
+        if(lista.user_id == userId){
             //return true;
             console.log('esPropietario');
             next();
