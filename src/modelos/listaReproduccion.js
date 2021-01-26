@@ -3,12 +3,20 @@ import { Schema } from 'mongoose';
 import {cancionSchema} from './cancion';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import {Cancion} from './cancion';
+import {User} from './usuario';
 
 export const listaSchema = new Schema({
     name:String,
     description: String,
-    user_id: String,
-    canciones: []//[{idC : String}]//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
+    user_id: {
+        type: mongoose.ObjectId,
+        ref: 'User'
+    },
+    canciones: [{
+        type: mongoose.ObjectId,
+        ref: 'Cancion'
+    }]//[{idC : String}]//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
 });
 
 export const Lista = mongoose.model('Lista', listaSchema);
@@ -76,6 +84,11 @@ export const ListaRepo = {
         // if (posicionEncontrado != -1)
         //     users.splice(posicionEncontrado, 1);
         await Lista.findByIdAndRemove(id).exec();
+    },
+
+    async obtenerCanciones(id){
+        const result = await Lista.findById(id).populate('canciones').exec();
+        return result != null ? result : undefined;
     }
 
 

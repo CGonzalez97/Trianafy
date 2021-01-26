@@ -13,7 +13,7 @@ para esto habría que anyadir otro método al controlador que lo use, además
 habría que añadir el atributo privada o pública en el modelo Lista, sería booleano
 */
 //router.get('/',token(), ListaController.getListas);//Aqui iría get listasPrivadas que falta por implementar con el ListRepo.findManyWithUserId
-router.get('/',token(), ListaController.getListas);
+router.get('/', token(), ListaController.getListas);
 
 router.post('/',
     token(),

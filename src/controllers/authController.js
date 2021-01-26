@@ -44,17 +44,21 @@ export const AuthController = {
             try {
                 decoded = jwt.verify(authorization, process.env.JWT_SECRET);
             } catch (e) {
-                return res.status(401).send('unauthorized');
+                return res.status(408).send('unauthorized');
             }
             userId = decoded.sub;
+            console.log('Id del token '+userId);
             // Fetch the user by id 
             //usuarioLogeado = await findById.findById(userId);
         }
-        let lista = ListaRepo.findById(req.params.id);
-        if(lista.user_id == userId){
+        let lista = await ListaRepo.findById(req.params.id);
+        console.log(lista);
+        if(lista[0].user_id == userId){
             //return true;
+            console.log('esPropietario');
             next();
         }else{
+            console.log('esPropietario falla');
             return res.status(401).send('unauthorized');
         }
         //return usuarioLogeado;

@@ -56,9 +56,9 @@ habría que añadir otro método para recibir todas las lista públicas
         res.sendStatus(200);
     } ,
     
-    getCanciones: async (req,res)=>{
-        let listaCanciones = [];
-        let listaRepro = await ListaRepo.findById(req.params.id);
+    getCanciones: async (req,res)=>{//----------------listaCanciones = listaRepo.obtenerCanciones(req.params.id);
+        let listaCanciones = ListaRepo.obtenerCanciones(req.params.id);
+        /*let listaRepro = await ListaRepo.findById(req.params.id);
         if(listaRepro != undefined){
             if(listaRepro.canciones != undefined){
                 for(let i of listaRepro.canciones){
@@ -66,6 +66,11 @@ habría que añadir otro método para recibir todas las lista públicas
                 }
             }
             
+        }*/
+        if(listaCanciones == undefined){
+            res.json(listaCanciones);
+        }else{
+            res.sendStatus(400);
         }
         res.json(listaCanciones);        
     },
