@@ -1,5 +1,7 @@
 import { json } from 'body-parser';
 import {Cancion,CancionRepo} from '../modelos/cancion';
+import {ListaController} from '../controllers/listaReproduccion';
+import { ListaRepo } from '../modelos/listaReproduccion';
 
 export const CancionController ={
 
@@ -70,6 +72,19 @@ export const CancionController ={
     },
 
     deleteCancion: async (req,res)=>{
+        let listasQueLaContienen = await ListaRepo.findConCancionEspecifica(req.params.id);
+        //let cancion = await CancionRepo.findById(req.params.id);
+        console.log(listasQueLaContienen);
+        console.log(typeof(listasQueLaContienen));
+        for(let i of listasQueLaContienen){
+            console.log('i: '+i+' typeof(i): '+typeof(i));
+            console.log('i.canciones: '+i.canciones);
+            let index = i.canciones.indexOf(req.params.id);
+            if(index >= 0){
+                i.canciones.splice(index,1);
+                ListaRepo.updateById(i.id, i);
+            }
+        }
         await CancionRepo.delete(req.params.id);
         res.sendStatus(200);
     }  

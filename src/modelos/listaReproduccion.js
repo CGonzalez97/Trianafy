@@ -63,6 +63,12 @@ export const ListaRepo = {
         const result = await Lista.find({publica:true}).populate().exec();
         return result != null ? result : undefined;
     },
+    async findConCancionEspecifica(idC){
+        //db.listas.find({canciones: {$elemMatch:{$eq:ObjectId("60119a2367b0ea20560845df")}}});
+        let objId = new mongoose.mongo.ObjectId(idC);
+        const result = await Lista.find({canciones: {$elemMatch:{$eq:objId}}}).populate().exec();
+        return result != null ? result : undefined;
+    },
 
     async updateById(id, listaMod) {
 
