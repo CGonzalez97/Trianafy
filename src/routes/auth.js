@@ -9,6 +9,10 @@ import {token} from '../services/passport';
 const router = Router();
 
 router.post('/register', [
+    body('nombre').exists().withMessage('El nombre es un campo requerido.'),
+    body('nick').exists().withMessage('El nombre es un campo requerido.'),
+    body('email').exists().withMessage('El nombre es un campo requerido.'),
+    body('password').exists().withMessage('El nombre es un campo requerido.'),
     body('nombre')
         .isLength({min: 5})
         .withMessage('La longitud mínima del nombre de usuario son 5 caracteres'),
@@ -19,7 +23,7 @@ router.post('/register', [
     body('email')
         .isEmail()
         .withMessage('El campo email debe ser un email válido')
-        .custom(async (email) => {//Aqui se ha anyadido async/await
+        .custom(async (email) => {
             if(await UserRepository.emailExist(email)) {
                 throw new Error('El email ya está registrado. Proporcione un valor diferente');
             } else {  

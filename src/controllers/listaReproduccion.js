@@ -51,9 +51,29 @@ habría que añadir otro método para recibir todas las lista públicas
     },
 
     modLista: async(req, res)=>{
+        let nombreN;
+        let descN;
+        let publicN;
+        let lista = await ListaRepo.findById(req.params.id);
+        if(req.body.name == '' || req.body.name == undefined || req.body.name == null){
+            nombreN = lista.name;
+        }else{
+            nombreN = req.body.name;
+        }
+        if(req.body.description == '' || req.body.description == undefined || req.body.description == null){
+            descN = lista.description;
+        }else{
+            descN = req.body.description;
+        }
+        if(req.body.publica == undefined || req.body.publica == null){
+            publicN = lista.publica;
+        }else{
+            publicN = req.body.publica;
+        }
         let listaMod = await ListaRepo.updateById(req.params.id,{
-            name: req.body.name, 
-            description: req.body.description
+            name: nombreN,
+            description: descN,
+            publica: publicN
         });
         if(listaMod =! undefined){
             res.status(200).json(listaMod);

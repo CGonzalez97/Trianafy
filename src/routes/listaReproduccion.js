@@ -19,7 +19,10 @@ router.get('/publicas', token(), ListaController.getPublicas);
 
 router.post('/',
     token(),
-    [body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
+    [body('name').exists().withMessage('El nombre de la lista es un campo requerido.'),
+    body('publica').exists().withMessage('El atributo publica es un campo requerido.'),
+    body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
+    body('publica').isBoolean().withMessage('El atributo publica debe ser booleano.'),
     body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
     validar,
     ListaController.crearLista);
@@ -27,14 +30,16 @@ router.post('/',
 router.get('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getLista);
 
 router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
     body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.'),
     body('publica').isBoolean().withMessage('El atributo publica debe de ser booleano.')],
@@ -44,21 +49,25 @@ router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthControl
 router.delete('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.deleteLista);
 
 router.get('/:id/songs',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getCanciones);
 
 router.post('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('idC').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.addCancion);
@@ -66,7 +75,9 @@ router.post('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de
 router.get('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('idC').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getCancion);
@@ -74,7 +85,9 @@ router.get('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de 
 router.delete('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
     AuthController.esPropietario,
-    [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
+    [param('id').exists().withMessage('El id es un campo requerido.'),
+    param('idC').exists().withMessage('El id es un campo requerido.'),
+    param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.deleteCancion);
