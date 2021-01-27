@@ -19,12 +19,21 @@ habría que añadir otro método para recibir todas las lista públicas
             res.sendStatus(404);
         }
     },
+    getPublicas:async (req,res)=>{
+        let listasPublicas = await ListaRepo.findPublicas();
+        if(listasPublicas != undefined){
+            res.json(listasPublicas);
+        }else{
+            res.sendStatus(400);
+        }
+    },
 
     crearLista : async (req,res)=>{
         let userId = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET).sub;
         let listaPrueba = new Lista({
             name: req.body.name,
             description: req.body.description,
+            publica: req.body.publica,
             user_id: userId,
             canciones: []
         });

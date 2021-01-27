@@ -9,6 +9,7 @@ import {User} from './usuario';
 export const listaSchema = new Schema({
     name:String,
     description: String,
+    publica:Boolean,
     user_id: {
         type: mongoose.ObjectId,
         ref: 'User'
@@ -27,7 +28,8 @@ export const ListaRepo = {
         let listaGuardar = new Lista({
             name: lista.name,
             description: lista.description, 
-            user_id: lista.user_id
+            user_id: lista.user_id,
+            publica: lista.publica
         });
         const result =  await listaGuardar.save();
         return result;
@@ -55,6 +57,10 @@ export const ListaRepo = {
             }
             let userId = decoded.sub;
         const result = await Lista.find({user_id:userId}).populate().exec();
+        return result != null ? result : undefined;
+    },
+    async findPublicas(){
+        const result = await Lista.find({publica:true}).populate().exec();
         return result != null ? result : undefined;
     },
 

@@ -15,6 +15,8 @@ habría que añadir el atributo privada o pública en el modelo Lista, sería bo
 //router.get('/',token(), ListaController.getListas);//Aqui iría get listasPrivadas que falta por implementar con el ListRepo.findManyWithUserId
 router.get('/', token(), ListaController.getListas);
 
+router.get('/publicas', token(), ListaController.getPublicas);
+
 router.post('/',
     token(),
     [body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
@@ -34,7 +36,8 @@ router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthControl
     AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
-    body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
+    body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.'),
+    body('publica').isBoolean().withMessage('El atributo publica debe de ser booleano.')],
     validar,
     ListaController.modLista);
 
