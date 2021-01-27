@@ -16,7 +16,7 @@ export const CancionController ={
         let cancionPrueba = new Cancion({title: req.body.title,
             artist: req.body.artist,
             album: req.body.album,
-            year: new  Date()});
+            year: req.body.year});
         await CancionRepo.save(cancionPrueba);
         res.status(201).json(cancionPrueba);
     },

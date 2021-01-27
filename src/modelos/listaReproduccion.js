@@ -3,7 +3,7 @@ import { Schema } from 'mongoose';
 import {cancionSchema} from './cancion';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import {Cancion} from './cancion';
+import {Cancion, CancionRepo} from './cancion';
 import {User} from './usuario';
 
 export const listaSchema = new Schema({
@@ -26,7 +26,7 @@ export const ListaRepo = {
     async save(lista) {
         let listaGuardar = new Lista({
             name: lista.name,
-            description: lista.description,
+            description: lista.description, 
             user_id: lista.user_id
         });
         const result =  await listaGuardar.save();
@@ -54,7 +54,7 @@ export const ListaRepo = {
                 return res.status(401).send('unauthorized');
             }
             let userId = decoded.sub;
-        const result = await Lista.find({user_id:userId}).exec();
+        const result = await Lista.find({user_id:userId}).populate().exec();
         return result != null ? result : undefined;
     },
 
@@ -87,8 +87,18 @@ export const ListaRepo = {
     },
 
     async obtenerCanciones(id){
-        const result = await Lista.findById(id).populate('canciones').exec();
-        return result != null ? result : undefined;
+        const result = await Lista.findById(id).exec();
+        let canciones = [];
+        for(let i of result.canciones){
+            console.log(i);
+            let resultado = await CancionRepo.findById(i);
+            if(resultado != undefined){
+                canciones.push(resultado);
+            }
+        }
+        //return result != null ? result : undefined;
+
+        return canciones != null ? canciones : undefined;
     }
 
 

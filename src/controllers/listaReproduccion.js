@@ -1,6 +1,8 @@
 import { json } from 'body-parser';
 import {Lista,ListaRepo} from '../modelos/listaReproduccion';
 import {Cancion,CancionRepo} from '../modelos/cancion';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 
 export const ListaController ={
@@ -19,11 +21,12 @@ habría que añadir otro método para recibir todas las lista públicas
     },
 
     crearLista : async (req,res)=>{
+        let userId = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET).sub;
         let listaPrueba = new Lista({
             name: req.body.name,
             description: req.body.description,
-            user_id: req.body.user_id,
-            canciones: [String]
+            user_id: userId,
+            canciones: []
         });
         await ListaRepo.save(listaPrueba);
         res.status(201).json(listaPrueba);
@@ -41,8 +44,7 @@ habría que añadir otro método para recibir todas las lista públicas
     modLista: async(req, res)=>{
         let listaMod = await ListaRepo.updateById(req.params.id,{
             name: req.body.name, 
-            description: req.body.description, 
-            user_id: req.body.user_id
+            description: req.body.description
         });
         if(listaMod =! undefined){
             res.status(200).json(listaMod);
@@ -57,7 +59,7 @@ habría que añadir otro método para recibir todas las lista públicas
     } ,
     
     getCanciones: async (req,res)=>{//----------------listaCanciones = listaRepo.obtenerCanciones(req.params.id);
-        let listaCanciones = ListaRepo.obtenerCanciones(req.params.id);
+        let listaCanciones = await ListaRepo.obtenerCanciones(req.params.id);
         /*let listaRepro = await ListaRepo.findById(req.params.id);
         if(listaRepro != undefined){
             if(listaRepro.canciones != undefined){
@@ -67,19 +69,19 @@ habría que añadir otro método para recibir todas las lista públicas
             }
             
         }*/
-        if(listaCanciones == undefined){
+        if(listaCanciones != undefined){
             res.json(listaCanciones);
         }else{
             res.sendStatus(400);
         }
-        res.json(listaCanciones);        
+        //res.json(listaCanciones);        
     },
 
     addCancion: async (req,res)=>{
         let cancion = await CancionRepo.findById(req.params.idC);
         let lista = await ListaRepo.findById(req.params.id);
         if(cancion != undefined && cancion != null && lista != undefined && lista != null){
-            lista.canciones.push(cancion.id);
+            lista.canciones.push(cancion/*.id*/);
             lista.save();
             res.json(cancion);
         }else{
