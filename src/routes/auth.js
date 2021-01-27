@@ -4,6 +4,7 @@ import {AuthController} from '../controllers/authController';
 import {validar} from '../middlewares/validacion';
 import {User, UserRepository} from '../modelos/usuario';
 import {password, passport} from '../services/passport';
+import {token} from '../services/passport';
 
 const router = Router();
 
@@ -33,5 +34,7 @@ router.post('/register', [
 router.post('/login',
     password(),
     AuthController.login);
+
+router.get('/me', token(),AuthController.misDatos);
 
 export default router;

@@ -1,6 +1,9 @@
 import {User,UserRepository} from '../modelos/usuario';
+import {ListaRepo} from '../modelos/listaReproduccion';
 import bcrypt from 'bcryptjs';
 import { JwtService } from '../services/jwt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const AuthController = {
 
@@ -28,6 +31,63 @@ export const AuthController = {
         res.status(201).json({
             user: req.user,
             token: token
+        });
+    },
+
+    /*Middleware que se pasa si el user_id de la lista es el mismo que el del token*/
+    esPropietario : async (req,res, next)=>{
+        let userId;
+        //let usuarioLogeado;
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization.split(' ')[1];
+            let decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+            } catch (e) {
+                return res.status(408).send('unauthorized');
+            }
+            userId = decoded.sub;
+            console.log('Id del token '+userId);
+            // Fetch the user by id 
+            //usuarioLogeado = await findById.findById(userId);
+        }
+        let lista = await ListaRepo.findById(req.params.id);
+        console.log('tipo de lista '+typeof(lista));
+        if(lista.user_id == userId){
+            //return true;
+            console.log('esPropietario');
+            next();
+        }else{
+            console.log('esPropietario falla');
+            return res.status(401).send('unauthorized');
+        }
+        //return usuarioLogeado;
+    },
+
+    misDatos: async(req,res,next)=>{
+        let userId;
+        let usuarioLogeado;
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization.split(' ')[1];
+            console.log(authorization);
+            let decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+                console.log(decoded);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            userId = decoded.sub;//600e9d768c566e08911b26d8
+            // Fetch the user by id 
+            console.log(userId);
+            usuarioLogeado = await UserRepository.findById(userId);
+            console.log(typeof usuarioLogeado);
+        }
+        res.json({
+            id: usuarioLogeado.id,
+            nombre: usuarioLogeado.nombre,
+            nick: usuarioLogeado.nick,
+            email: usuarioLogeado.email
         });
     }
 }

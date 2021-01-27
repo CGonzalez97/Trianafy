@@ -1,12 +1,19 @@
 import { Router } from 'express';
 import { ListaController} from '../controllers/listaReproduccion';
+import {AuthController} from '../controllers/authController';
 import {param,body} from 'express-validator';
 import {validar} from '../middlewares/validacion';
 import {token} from '../services/passport';
 
 const router = Router();
 
-router.get('/',token(), ListaController.getListas);
+/*
+Implementar ruta /publicas que muestre las lista publicas con ListaRepo.findAll(),
+para esto habría que anyadir otro método al controlador que lo use, además
+habría que añadir el atributo privada o pública en el modelo Lista, sería booleano
+*/
+//router.get('/',token(), ListaController.getListas);//Aqui iría get listasPrivadas que falta por implementar con el ListRepo.findManyWithUserId
+router.get('/', token(), ListaController.getListas);
 
 router.post('/',
     token(),
@@ -15,48 +22,55 @@ router.post('/',
     validar,
     ListaController.crearLista);
 
-router.get('/:id',
+router.get('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getLista);
 
-router.put('/:id',
+router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
     body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
     validar,
     ListaController.modLista);
 
-router.delete('/:id',
+router.delete('/:id',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.deleteLista);
 
-router.get('/:id/songs',
+router.get('/:id/songs',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getCanciones);
 
-router.post('/:id/songs/:idC',
+router.post('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.addCancion);
 
-router.get('/:id/songs/:idC',
+router.get('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,
     ListaController.getCancion);
 
-router.delete('/:id/songs/:idC',
+router.delete('/:id/songs/:idC',//Aqui haría falta el middleware esPropietario de AuthController
     token(),
+    AuthController.esPropietario,
     [param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
     param('idC').isString().withMessage('El id debe de ser una cadena de caracteres.')],
     validar,

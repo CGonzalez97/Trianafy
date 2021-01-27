@@ -1,12 +1,22 @@
 import mongoose from 'mongoose';
 import { Schema } from 'mongoose';
 import {cancionSchema} from './cancion';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+import {Cancion, CancionRepo} from './cancion';
+import {User} from './usuario';
 
 export const listaSchema = new Schema({
     name:String,
     description: String,
-    user_id: String,
-    canciones: []//[{idC : String}]//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
+    user_id: {
+        type: mongoose.ObjectId,
+        ref: 'User'
+    },
+    canciones: [{
+        type: mongoose.ObjectId,
+        ref: 'Cancion'
+    }]//[{idC : String}]//[cancionSchema] //Pensar si usar en lugar de esto la referencia junto con la función populate() -> [cancion_id]
 });
 
 export const Lista = mongoose.model('Lista', listaSchema);
@@ -16,7 +26,7 @@ export const ListaRepo = {
     async save(lista) {
         let listaGuardar = new Lista({
             name: lista.name,
-            description: lista.description,
+            description: lista.description, 
             user_id: lista.user_id
         });
         const result =  await listaGuardar.save();
@@ -32,6 +42,19 @@ export const ListaRepo = {
         // const posicion = indexOfPorId(id);
         // return posicion == -1 ? undefined : users[posicion];
         const result = await Lista.findById(id).exec();
+        return result != null ? result : undefined;
+    },
+    
+    async findManyWithUserId(tokenCompleto){
+        var authorization = tokenCompleto.split(' ')[1];
+        let decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            let userId = decoded.sub;
+        const result = await Lista.find({user_id:userId}).populate().exec();
         return result != null ? result : undefined;
     },
 
@@ -61,6 +84,21 @@ export const ListaRepo = {
         // if (posicionEncontrado != -1)
         //     users.splice(posicionEncontrado, 1);
         await Lista.findByIdAndRemove(id).exec();
+    },
+
+    async obtenerCanciones(id){
+        const result = await Lista.findById(id).exec();
+        let canciones = [];
+        for(let i of result.canciones){
+            console.log(i);
+            let resultado = await CancionRepo.findById(i);
+            if(resultado != undefined){
+                canciones.push(resultado);
+            }
+        }
+        //return result != null ? result : undefined;
+
+        return canciones != null ? canciones : undefined;
     }
 
 

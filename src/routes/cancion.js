@@ -31,7 +31,7 @@ router.put('/:id',
             body('title').isString().withMessage('El título debe ser una cadena de caracteres.'),
             body('album').isString().withMessage('El título debe ser una cadena de caracteres.'),
             body('artist').isString().withMessage('El título debe ser una cadena de caracteres.'),
-            body('year').isDate().withMessage('La fecha debe ser de tipo Fecha.')],
+            body('year').isInt().withMessage('La fecha debe ser de tipo Fecha.')],
             validar,
             CancionController.modCancion);
 
