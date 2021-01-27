@@ -1,5 +1,6 @@
 import { json } from 'body-parser';
 import {Cancion,CancionRepo} from '../modelos/cancion';
+import {ListaController} from '../controllers/listaReproduccion';
 
 export const CancionController ={
 

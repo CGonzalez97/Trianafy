@@ -23,7 +23,7 @@ router.post('/',
     body('publica').exists().withMessage('El atributo publica es un campo requerido.'),
     body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
     body('publica').isBoolean().withMessage('El atributo publica debe ser booleano.'),
-    body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
+    body('description').optional().isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.')],
     validar,
     ListaController.crearLista);
 
@@ -40,9 +40,9 @@ router.put('/:id',//Aqui haría falta el middleware esPropietario de AuthControl
     AuthController.esPropietario,
     [param('id').exists().withMessage('El id es un campo requerido.'),
     param('id').isString().withMessage('El id debe de ser una cadena de caracteres.'),
-    body('name').isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
-    body('description').isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.'),
-    body('publica').isBoolean().withMessage('El atributo publica debe de ser booleano.')],
+    body('name').optional().isString().withMessage('El nombre de la lista debe ser una cadena decaracteres.'),
+    body('description').optional().isString().withMessage('El descripción de la lista debe ser una cadena decaracteres.'),
+    body('publica').optional().isBoolean().withMessage('El atributo publica debe de ser booleano.')],
     validar,
     ListaController.modLista);
 
